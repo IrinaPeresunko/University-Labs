@@ -5,12 +5,13 @@ import java.util.Arrays;
 public class PrinterTest {
 	public static void main(String[] args){
 		
-		Printer[] printers = new Printer[4];
+		Printer[] printers = new Printer[5];
 		
 		printers[0]=new InkJetPrinter("Ink jet printer","Samsung",60,"average",new MonoPrinter());
 		printers[1]=new InkJetPrinter("Ink jet printer","HP",70,"good",new ColourPrinter());
 		printers[2]=new LaserPrinter("Laser printer","Canon",100,"excellent",new MonoPrinter());
 		printers[3]=new LaserPrinter("Laser printer","Canon",85,"good",new ColourPrinter());
+		printers[4]=new PhotoPrinter("Ink jet photoprinter","Epson",40,"good",new ColourPrinter());
 		
 		for(int i=0;i<printers.length;i++){
 			System.out.println(printers[i]);
@@ -26,8 +27,8 @@ public class PrinterTest {
 			System.out.println(printers[i]);
 		}
 		
-		Arrays.sort(printers, new SortedByName());
-		System.out.println("\n"+"Sorted by name(descending):");
+		Arrays.sort(printers, new SortedByNameAndPrintSpeed());
+		System.out.println("\n"+"Sorted by name and print speed:");
 		for(int i=0;i<printers.length;i++){
 			System.out.println(printers[i]);
 		}
