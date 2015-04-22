@@ -33,14 +33,14 @@ public class PrinterTest {
 			System.out.println(printers[i]);
 		}
 		
-		Arrays.sort(printers, new SortedByCompany());
-		System.out.println("\n"+"Sorted by company(ascending):");
+		Arrays.sort(printers,new SortedByPrintSpeed());
+		System.out.println("\n"+"Sorted by print speed(descending):");
 		for(int i=0;i<printers.length;i++){
 			System.out.println(printers[i]);
 		}
 		
-		Arrays.sort(printers,new SortedByPrintSpeed());
-		System.out.println("\n"+"Sorted by print speed(descending):");
+		Arrays.sort(printers, new SortedByCompany());
+		System.out.println("\n"+"Sorted by company(ascending):");
 		for(int i=0;i<printers.length;i++){
 			System.out.println(printers[i]);
 		}

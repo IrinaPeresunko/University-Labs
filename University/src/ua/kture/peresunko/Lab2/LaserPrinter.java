@@ -11,7 +11,4 @@ public class LaserPrinter extends Printer{
 	public void print(String text) {
 		colourOfPrinting.printText(text);
 	}
-	public int compareTo(Printer p) {
-		return this.getPrintSpeed()>p.getPrintSpeed() ? 1 : this.getPrintSpeed()==p.getPrintSpeed() ? 0 : -1;
-	}
 }

@@ -8,7 +8,7 @@ public class SortedByNameAndPrintSpeed implements Comparator<Printer>{
 		if(p1.getPrintSpeed()==p2.getPrintSpeed()){
 			return p1.getNameOfCompany().compareTo(p2.getNameOfCompany());
 		}
-		return (int) (p2.getPrintSpeed()-p1.getPrintSpeed()); 
+		return p1.getPrintSpeed()>p2.getPrintSpeed()?-1:p1.getPrintSpeed()==p2.getPrintSpeed()?0:1;
 	}
 
 }
