@@ -1,14 +1,16 @@
 package ua.kture.peresunko.Lab3;
 
-import ua.kture.peresunko.Lab2.Printer;
-
-public interface MyList {
+public interface MyList<E> {
 	
-	public void add(Printer printer);
-//	public void clear();
-//	boolean remove(Printer printer);
+	public boolean addAtTheTop(E e);
+	public boolean addAtTheEnd(E e);
+	public void add(E e, int index);
+	public void clear();
+	boolean removeAtTheTop();
+	boolean removeAtTheEnd();
+	void remove(int index);
 //	public Object[] toArray();
 	public int size();
-	//public boolean contains(Printer printer);
+	public boolean contains(E e);
 
 }
