@@ -2,15 +2,13 @@ package ua.kture.peresunko.Lab3;
 
 import java.util.Iterator;
 //import java.util.NoSuchElementException;
-
 import ua.kture.peresunko.Lab2.Printer;
 
-//!!! ABSTRACT!!!
 public class MyLinkedList implements MyList<Printer>,Iterable<Printer>{
 	private Node first;
 	private Node last;
 	private int size;
-	private int currentPosition=-1;
+	//private int currentPosition=-1;
 	
 	private class Node{
 		private Printer printerData;
@@ -21,9 +19,9 @@ public class MyLinkedList implements MyList<Printer>,Iterable<Printer>{
 			this.next=null;
 			this.printerData=printer;
 		}
-		public Node getPrev(){
-			return prev;
-		}
+//		public Node getPrev(){
+//			return prev;
+//		}
 		public Node getNext(){
 			return next;
 		}
@@ -81,12 +79,19 @@ public class MyLinkedList implements MyList<Printer>,Iterable<Printer>{
 			addAtTheEnd(printerData);
 		}
 		else{
-			last.next=node;
-			node.prev=last;
-			node.next=null;
-			last=node;
-			size++;
-		}
+			Node current=first;
+			int i=1;
+			while(i<index && current !=null){
+				current=current.getNext();
+				i++;
+			}
+			node = new Node(printerData);
+			current.prev.next=node;
+			node.prev=current.prev;
+			current.prev=node;
+			node.next=current;
+			size++;			
+		}	
 	}
 	public boolean removeAtTheTop() {
 		if(size==0){
@@ -175,16 +180,27 @@ public class MyLinkedList implements MyList<Printer>,Iterable<Printer>{
 		}
 		return output;
 	}
+	public Object[] toArray(){
+		Printer[] printers = new Printer[size];
+		Node current = first;
+		int i=0;
+		while(current!=null && i<size){
+			printers[i] = current.printerData;
+			i++;
+			current = current.getNext();
+		}
+		return printers;
+	}
 	
 	public Iterator<Printer> iterator() {
 		return new ListIterator();
 	}
 	
 	public class ListIterator implements Iterator<Printer> {
-		private boolean wasRemoved;
+		//private boolean wasRemoved;
 		private Node current=first;
 		public ListIterator(){
-			currentPosition=-1;
+			//currentPosition=-1;
 		}
 		public boolean hasNext() {
 			return current!=null;

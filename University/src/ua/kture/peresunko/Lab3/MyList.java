@@ -9,7 +9,7 @@ public interface MyList<E> {
 	boolean removeAtTheTop();
 	boolean removeAtTheEnd();
 	void remove(int index);
-//	public Object[] toArray();
+	public Object[] toArray();
 	public int size();
 	public boolean contains(E e);
 

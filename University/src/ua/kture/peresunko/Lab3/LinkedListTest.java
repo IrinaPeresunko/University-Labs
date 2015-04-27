@@ -32,9 +32,17 @@ public class LinkedListTest {
 		System.out.println(myLinkedList);
 		System.out.println(test);
 		
+		myLinkedList.add(printers[2], 2);
+		System.out.println(myLinkedList);
+		
 		boolean test1 = myLinkedList.contains(printers[4]);
-		System.out.println(test1);
-//		
+		System.out.println(test1 + "\n"+"_____________________________");
+		
+		Printer[] printers1 = (Printer[]) myLinkedList.toArray(); 
+		for(Printer i:printers1){
+			System.out.println(i);
+		}
+		
 //		test = myLinkedList.removeAtTheEnd();
 //		System.out.println(myLinkedList);
 //		System.out.println(test);
