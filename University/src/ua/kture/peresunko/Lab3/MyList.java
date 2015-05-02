@@ -12,5 +12,5 @@ public interface MyList<E> {
 	public Object[] toArray();
 	public int size();
 	public boolean contains(E e);
-
+	
 }

@@ -1,14 +1,12 @@
 package ua.kture.peresunko.Lab3;
 
 import java.util.Iterator;
-//import java.util.NoSuchElementException;
 import ua.kture.peresunko.Lab2.Printer;
 
 public class MyLinkedList implements MyList<Printer>,Iterable<Printer>{
 	private Node first;
 	private Node last;
 	private int size;
-	//private int currentPosition=-1;
 	
 	private class Node{
 		private Printer printerData;
@@ -19,9 +17,6 @@ public class MyLinkedList implements MyList<Printer>,Iterable<Printer>{
 			this.next=null;
 			this.printerData=printer;
 		}
-//		public Node getPrev(){
-//			return prev;
-//		}
 		public Node getNext(){
 			return next;
 		}
@@ -126,7 +121,6 @@ public class MyLinkedList implements MyList<Printer>,Iterable<Printer>{
 	public void remove(int index){
 		if(index<1 || index>size){
 			System.out.println("index<1 || index>size");
-			//return false;
 		}
 		else if(index==1){
 			removeAtTheTop();
@@ -150,7 +144,6 @@ public class MyLinkedList implements MyList<Printer>,Iterable<Printer>{
 			current.prev.next = current.next;
 			current.next.prev = current.prev;
 			size--;
-			//return true;
 		}
 	}
 	public boolean contains(Printer printer){
@@ -166,7 +159,16 @@ public class MyLinkedList implements MyList<Printer>,Iterable<Printer>{
 		return false;
 	}
 	public void clear(){
-		
+		Node current = first;
+		while(current!=null && current.getNext()!=null){
+			current.printerData=null;
+			current.next.prev = null;
+			size--;
+			
+			current = current.next;	
+		}
+		current=first=last=null;
+		size--;
 	}
 	public String toString(){
 		if(first==null){
@@ -197,10 +199,10 @@ public class MyLinkedList implements MyList<Printer>,Iterable<Printer>{
 	}
 	
 	public class ListIterator implements Iterator<Printer> {
-		//private boolean wasRemoved;
 		private Node current=first;
+		private int currentPosition;
 		public ListIterator(){
-			//currentPosition=-1;
+			currentPosition=0;
 		}
 		public boolean hasNext() {
 			return current!=null;
@@ -209,10 +211,11 @@ public class MyLinkedList implements MyList<Printer>,Iterable<Printer>{
 			if(!hasNext()) return null;
 			Printer printer = current.printerData;
 			current = current.next;
+			currentPosition++;
 			return printer;
 		}
 		public void remove() {	
-			//new MyLinkedList().remove(int in);
+			MyLinkedList.this.remove(currentPosition);
 		}
 	}
 }
