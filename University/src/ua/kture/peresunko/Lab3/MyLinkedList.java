@@ -198,9 +198,11 @@ public class MyLinkedList implements MyList<Printer>,Iterable<Printer>{
 		return new ListIterator();
 	}
 	
-	public class ListIterator implements Iterator<Printer> {
+	private class ListIterator implements Iterator<Printer> {
 		private Node current=first;
 		private int currentPosition;
+		private boolean wasRemoved = false;
+		
 		public ListIterator(){
 			currentPosition=0;
 		}
@@ -212,10 +214,18 @@ public class MyLinkedList implements MyList<Printer>,Iterable<Printer>{
 			Printer printer = current.printerData;
 			current = current.next;
 			currentPosition++;
+			wasRemoved = false;
 			return printer;
 		}
-		public void remove() {	
-			MyLinkedList.this.remove(currentPosition);
+		public void remove() throws IllegalStateException{	
+			if(wasRemoved!=true){
+				MyLinkedList.this.remove(currentPosition);
+				wasRemoved = true;
+			}
+			else{
+				System.out.println("You can't remove element twice in a row");
+				throw new IllegalStateException();
+			}
 		}
 	}
 }

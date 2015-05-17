@@ -71,6 +71,10 @@ public class LinkedListTest {
 		iterator.remove();
 		System.out.print("Remove element using iterator:"+"\n"+myLinkedList);
 		
+//		System.out.println("___________________________________________");
+//		iterator.remove();
+//		System.out.print("Remove element using iterator:"+"\n"+myLinkedList);
+		
 		System.out.println("___________________________________________");
 		System.out.println("Size of linked list:"+myLinkedList.size());
 		
