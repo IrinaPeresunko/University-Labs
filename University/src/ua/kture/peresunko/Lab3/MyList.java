@@ -1,5 +1,7 @@
 package ua.kture.peresunko.Lab3;
 
+import java.util.Comparator;
+
 public interface MyList<E> {
 	
 	public boolean addAtTheTop(E e);
@@ -12,5 +14,6 @@ public interface MyList<E> {
 	public Object[] toArray();
 	public int size();
 	public boolean contains(E e);
+	public void sort(Comparator<E> comparator);
 	
 }

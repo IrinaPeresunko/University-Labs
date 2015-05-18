@@ -29,6 +29,10 @@ public class LinkedListTest {
 		System.out.print(myLinkedList);
 		//System.out.print("___________________________________________");
 		
+		System.out.println("___________________________________________");
+		myLinkedList.sort(new SortedByCompany());
+		System.out.print("myLinkedList.sort(new SortedByCompany())"+"\n"+myLinkedList);
+		
 		boolean test = myLinkedList.removeAtTheTop();
 		System.out.println("___________________________________________");
 		System.out.print("Remove at the top:"+test+"\n"+myLinkedList);
@@ -81,5 +85,6 @@ public class LinkedListTest {
 		myLinkedList.clear();
 		System.out.print("After clearing:");
 		System.out.print(myLinkedList+"Size of linked list:"+myLinkedList.size());
+		
 	}
 }

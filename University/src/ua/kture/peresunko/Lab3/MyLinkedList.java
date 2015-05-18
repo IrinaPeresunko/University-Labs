@@ -1,6 +1,8 @@
 package ua.kture.peresunko.Lab3;
 
+import java.util.Comparator;
 import java.util.Iterator;
+
 import ua.kture.peresunko.Lab2.Printer;
 
 public class MyLinkedList implements MyList<Printer>,Iterable<Printer>{
@@ -227,5 +229,28 @@ public class MyLinkedList implements MyList<Printer>,Iterable<Printer>{
 				throw new IllegalStateException();
 			}
 		}
+	}
+
+	public void sort(Comparator<Printer> comparator) {
+		Node temp1 = first;
+		Node temp2 = first.next;
+		
+		for(int i=0;i<size;i++){
+			while(temp2.next!=null){
+				if(comparator.compare(temp1.printerData,temp2.printerData)>0){
+					Node node = new Node(null);
+					node.printerData = temp1.printerData;
+					temp1.printerData = temp2.printerData;
+					temp2.printerData = node.printerData;
+					
+					temp1 = temp1.next;
+					temp2 = temp2.next;
+				}
+				else{
+					temp1 = temp1.next;
+					temp2 = temp2.next;
+				}
+			}
+		}	
 	}
 }
