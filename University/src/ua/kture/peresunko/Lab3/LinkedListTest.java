@@ -23,33 +23,24 @@ public class LinkedListTest {
 		printers[4]=new PhotoPrinter("Ink jet photoprinter","Epson",40,"good",new ColourPrinter());
 		
 		for(int i=0;i<printers.length;i++){
-			myLinkedList.addAtTheTop(printers[i]);
+			myLinkedList.add(printers[i],i);
 		}
 		
 		System.out.print(myLinkedList);
-		//System.out.print("___________________________________________");
 		
 		System.out.println("___________________________________________");
 		myLinkedList.sort(new SortedByCompany());
 		System.out.print("myLinkedList.sort(new SortedByCompany())"+"\n"+myLinkedList);
 		
-		boolean test = myLinkedList.removeAtTheTop();
+		myLinkedList.add(printers[1], 2);
 		System.out.println("___________________________________________");
-		System.out.print("Remove at the top:"+test+"\n"+myLinkedList);
+		System.out.print("Add printers[1] for second position:"+"\n"+myLinkedList);
 		
-		myLinkedList.add(printers[2], 2);
+		myLinkedList.remove(myLinkedList.size());
 		System.out.println("___________________________________________");
-		System.out.print("Add printers[2] for second position:"+"\n"+myLinkedList);
+		System.out.print("Remove at the end:"+"\n"+myLinkedList);
 		
-		test = myLinkedList.removeAtTheEnd();
-		System.out.println("___________________________________________");
-		System.out.print("Remove at the end:"+test+"\n"+myLinkedList);
-		
-		test = myLinkedList.addAtTheEnd(printers[4]);
-		System.out.println("___________________________________________");
-		System.out.print("Add at the end:"+test+"\n"+myLinkedList);
-		
-		test = myLinkedList.contains(printers[4]);
+		boolean test = myLinkedList.contains(printers[4]);
 		System.out.println("___________________________________________");
 		System.out.println("Does linked list conatin printers[4]:"+test);
 		
@@ -64,7 +55,7 @@ public class LinkedListTest {
 			System.out.println(i);
 		}
 		
-		Iterator<Printer> iterator = ((MyLinkedList) myLinkedList).iterator();
+		Iterator<Printer> iterator = myLinkedList.iterator();
 		System.out.println("___________________________________________");
 		System.out.println("Create iterator and print elements, using methods HasNext() and next():");
 		while(iterator.hasNext()){

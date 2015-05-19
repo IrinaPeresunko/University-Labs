@@ -34,7 +34,7 @@ public class MyLinkedList implements MyList<Printer>,Iterable<Printer>{
 	public int size(){
 		return this.size;
 	}
-	public boolean addAtTheTop(Printer printer){
+	private boolean addAtTheTop(Printer printer){
 		Node node=new Node(printer);
 		
 		if(size==0){
@@ -49,7 +49,7 @@ public class MyLinkedList implements MyList<Printer>,Iterable<Printer>{
 		size++;
 		return true;
 	}
-	public boolean addAtTheEnd(Printer printer){
+	private boolean addAtTheEnd(Printer printer){
 		Node node=new Node(printer);
 		
 		if(size==0){
@@ -66,7 +66,7 @@ public class MyLinkedList implements MyList<Printer>,Iterable<Printer>{
 	}
 	public void add(Printer printerData,int index){
 		Node node=new Node(printerData);
-		if(index<1 || index> size){
+		if(index<-1 || index>this.size){
 			System.out.println("index<1 || index> size");
 		}
 		else if(index==1){
@@ -82,7 +82,7 @@ public class MyLinkedList implements MyList<Printer>,Iterable<Printer>{
 				current=current.getNext();
 				i++;
 			}
-			node = new Node(printerData);
+			//node = new Node(printerData);
 			current.prev.next=node;
 			node.prev=current.prev;
 			current.prev=node;
@@ -90,7 +90,7 @@ public class MyLinkedList implements MyList<Printer>,Iterable<Printer>{
 			size++;			
 		}	
 	}
-	public boolean removeAtTheTop() {
+	private boolean removeAtTheTop() {
 		if(size==0){
 			System.out.println("No elements");
 			return false;
@@ -105,7 +105,7 @@ public class MyLinkedList implements MyList<Printer>,Iterable<Printer>{
 		size--;
 		return true;
 	}
-	public boolean removeAtTheEnd() {
+	private boolean removeAtTheEnd() {
 		if(size==0){
 			System.out.println("No elements");
 			return false;
@@ -197,31 +197,39 @@ public class MyLinkedList implements MyList<Printer>,Iterable<Printer>{
 	}
 	
 	public Iterator<Printer> iterator() {
-		return new ListIterator();
+		return new MyLinkedListIterator();
 	}
 	
-	private class ListIterator implements Iterator<Printer> {
-		private Node current=first;
+	private class MyLinkedListIterator implements Iterator<Printer> {
 		private int currentPosition;
 		private boolean wasRemoved = false;
 		
-		public ListIterator(){
-			currentPosition=0;
+		public MyLinkedListIterator(){
+			currentPosition=-1;
 		}
 		public boolean hasNext() {
-			return current!=null;
+			if(size==0 || currentPosition>=size-1){
+				return false;
+			}
+			else{
+				return true;
+			}
 		}
 		public Printer next() {
 			if(!hasNext()) return null;
-			Printer printer = current.printerData;
-			current = current.next;
+			
+			Node current=first;
 			currentPosition++;
 			wasRemoved = false;
-			return printer;
+			for(int i=0;i<currentPosition;i++){
+				current = current.next;
+			}
+			return current.printerData;
 		}
 		public void remove() throws IllegalStateException{	
-			if(wasRemoved!=true){
-				MyLinkedList.this.remove(currentPosition);
+			if(wasRemoved!=true && currentPosition>0){
+				MyLinkedList.this.remove(currentPosition+1);
+				//currentPosition--;
 				wasRemoved = true;
 			}
 			else{
@@ -235,22 +243,45 @@ public class MyLinkedList implements MyList<Printer>,Iterable<Printer>{
 		Node temp1 = first;
 		Node temp2 = first.next;
 		
-		for(int i=0;i<size;i++){
-			while(temp2.next!=null){
-				if(comparator.compare(temp1.printerData,temp2.printerData)>0){
-					Node node = new Node(null);
-					node.printerData = temp1.printerData;
-					temp1.printerData = temp2.printerData;
-					temp2.printerData = node.printerData;
-					
-					temp1 = temp1.next;
-					temp2 = temp2.next;
-				}
-				else{
-					temp1 = temp1.next;
-					temp2 = temp2.next;
+		if(comparator==null){
+			for(int i=0;i<size;i++){
+				temp1 = first;
+				temp2 = first.next;
+				while(temp1.next!=null){
+					if(temp1.printerData.compareTo(temp2.printerData)>0){
+						Printer printerData = temp1.printerData;
+						temp1.printerData = temp2.printerData;
+						temp2.printerData = printerData;
+						
+						temp1 = temp1.next;
+						temp2 = temp2.next;
+					}
+					else{
+						temp1 = temp1.next;
+						temp2 = temp2.next;
+					}
 				}
 			}
-		}	
+		}
+		else{
+			for(int i=0;i<size;i++){
+				temp1 = first;
+				temp2 = first.next;
+				while(temp1.next!=null){
+					if(comparator.compare(temp1.printerData,temp2.printerData)>0){
+						Printer printerData = temp1.printerData;
+						temp1.printerData = temp2.printerData;
+						temp2.printerData = printerData;
+					
+						temp1 = temp1.next;
+						temp2 = temp2.next;
+					}
+					else{
+						temp1 = temp1.next;
+						temp2 = temp2.next;
+					}
+				}
+			}	
+		}
 	}
 }
