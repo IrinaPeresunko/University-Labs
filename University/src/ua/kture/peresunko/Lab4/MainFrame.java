@@ -18,19 +18,22 @@ public class MainFrame extends JFrame{
 
 		Printer[] printers = new Printer[5];
 		
-		JList ls = new JList();
+		static JList viewList = new JList();
 		private static DefaultListModel<String> printerData = new DefaultListModel();
+		
 		JButton buttonAdd = new JButton("Add");
 		JButton buttonDelete = new JButton("Delete");
 		JButton buttonClear = new JButton("Clear");
 		JButton buttonSearch = new JButton("Search");
 		JButton buttonSort = new JButton("Sort");
+		JButton buttonEdit = new JButton("Edit");
 		
-		Box box = Box.createVerticalBox();
-		JPanel p1 = new JPanel();
-		JComboBox box1 = new JComboBox();
-		JComboBox box2 = new JComboBox();
 		public static JFrame window;
+		Box box = Box.createVerticalBox();
+		JPanel buttonPanel = new JPanel();
+		JComboBox sortedType = new JComboBox();
+		JComboBox deleteType = new JComboBox();
+		
 		
 		
 		public MainFrame(){
@@ -56,25 +59,30 @@ public class MainFrame extends JFrame{
 			window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			window.setVisible(true);
 			
-			box1.addItem("by speed");
-			box1.addItem("by company");
-			p1.setLayout(new FlowLayout());
-			p1.add(new JLabel("Sorted by: "));
-			p1.add(box1);
-			//p1.add(box2);
+			sortedType.addItem("by speed");
+			sortedType.addItem("by company");
 			
-			ls.addMouseListener(new MouseAdapter(){
+			deleteType.addItem("selected");
+			deleteType.addItem("by field");
+			
+			buttonPanel.setLayout(new FlowLayout());
+			buttonPanel.add(new JLabel("Sorted by: "));
+			buttonPanel.add(sortedType);
+			buttonPanel.add(new JLabel("Delete: "));
+			buttonPanel.add(deleteType);
+			
+			viewList.addMouseListener(new MouseAdapter(){
 				public void mouseClicked(MouseEvent event){
-					if(ls.getSelectedIndex() < 0) return;
-					System.out.println(ls.getSelectedIndex());
+					if(viewList.getSelectedIndex() < 0) return;
+					System.out.println(viewList.getSelectedIndex());
 				}
 			});
 			
 			window.add(box, BorderLayout.EAST);
-			window.add(p1, BorderLayout.SOUTH);
+			window.add(buttonPanel, BorderLayout.SOUTH);
 			
-			window.add(ls, BorderLayout.CENTER);
-			ls.setModel(printerData);
+			window.add(viewList, BorderLayout.CENTER);
+			viewList.setModel(printerData);
 			
 			box.add(buttonAdd);
 			box.add(Box.createVerticalStrut(30));
@@ -85,8 +93,8 @@ public class MainFrame extends JFrame{
 			box.add(buttonDelete);
 			box.add(Box.createVerticalStrut(30));
 			box.add(buttonClear);
-			
-			
+			box.add(Box.createVerticalStrut(30));
+			box.add(buttonEdit);
 			
 			buttonAdd.addMouseListener(new MouseAdapter(){
 				public void mouseClicked(MouseEvent event){
@@ -96,9 +104,14 @@ public class MainFrame extends JFrame{
 			buttonDelete.addMouseListener(new MouseAdapter(){
 				public void mouseClicked(MouseEvent event){
 					if(printerList.size() == 0) throw new IllegalStateException("List is empty");
-					printerList.remove(ls.getSelectedIndex());
-					printerData.remove(ls.getSelectedIndex());
-					System.out.println(printerList);
+					if(deleteType.getSelectedItem() == "selected"){
+						printerList.remove(viewList.getSelectedIndex());
+						printerData.remove(viewList.getSelectedIndex());
+					}
+					if(deleteType.getSelectedItem() == "by field"){
+						DeleteFrame deleteFrame = new DeleteFrame();
+					}
+					
 				}
 			});
 			buttonClear.addMouseListener(new MouseAdapter(){
@@ -115,8 +128,8 @@ public class MainFrame extends JFrame{
 			});
 			buttonSort.addMouseListener(new MouseAdapter(){
 				public void mouseClicked(MouseEvent event){
-					if(box1.getSelectedItem() == "by speed") printerList.sort(null);
-					if(box1.getSelectedItem() == "by company") printerList.sort(new SortedByCompany());
+					if(sortedType.getSelectedItem() == "by speed") printerList.sort(null);
+					if(sortedType.getSelectedItem() == "by company") printerList.sort(new SortedByCompany());
 					printerData.clear();
 					Iterator<Printer> iterator = printerList.iterator();
 					for(int i = 0; i < printerList.size(); i++){
@@ -125,11 +138,26 @@ public class MainFrame extends JFrame{
 					}
 				}
 				});
+			buttonEdit.addMouseListener(new MouseAdapter(){
+				public void mouseClicked(MouseEvent event){
+//					list.getElement(ls.getSelectedIndex()).getName(), 
+//				       list.getElement(ls.getSelectedIndex()).getPrice(),
+//				       list.getElement(ls.getSelectedIndex()).getYear());
+					EditFrame editFrame = new EditFrame(
+							((MyLinkedList) printerList).getElementByIndex(viewList.getSelectedIndex()).getName(),
+							((MyLinkedList) printerList).getElementByIndex(viewList.getSelectedIndex()).getNameOfCompany(),
+							((MyLinkedList) printerList).getElementByIndex(viewList.getSelectedIndex()).getPrintSpeed(),
+							((MyLinkedList) printerList).getElementByIndex(viewList.getSelectedIndex()).getPrintQuality());
+				}
+			});
 		}
 		public static void add(Printer printer){
 			int size = printerList.size();
 			printerList.add(printer,size);
 			printerData.addElement(toStringPrinterList(printer));
+		}
+		public static void setList(MyList resultList){
+			printerList = resultList;
 		}
 		public static MyList getList(){
 			return printerList;
@@ -137,6 +165,14 @@ public class MainFrame extends JFrame{
 		public static String toStringPrinterList(Printer printer){
 			return printer.getName()+" company:"+printer.getNameOfCompany()+
 					", print speed:"+printer.getPrintSpeed()+", quality:"+printer.getPrintQuality();
+		}
+		public static void setModel(DefaultListModel model){
+			   printerData = model;
+		}
+		public static void edit(String name, String nameOfCompany, double printSpeed,String quality){
+			Printer printer = ((MyLinkedList) printerList).edit(name,nameOfCompany,printSpeed,quality,viewList.getSelectedIndex());
+			printerData.insertElementAt(toStringPrinterList(printer), viewList.getSelectedIndex());
+			printerData.remove(viewList.getSelectedIndex()+1);
 		}
 }
 

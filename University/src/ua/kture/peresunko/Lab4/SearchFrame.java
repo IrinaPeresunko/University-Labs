@@ -30,15 +30,15 @@ public class SearchFrame extends JFrame{
 		 JFrameWindow.setResizable(false);
 		 JFrameWindow.setVisible(true);
 		  
-		 buttonOK.setBounds(10, 180, 80, 20);
+		 buttonOK.setBounds(10, 120, 80, 20);
 		  
-		 labelValue.setBounds(10, 140, 100, 20);
-		 labelType.setBounds(10, 80, 120, 20);
+		 labelValue.setBounds(10, 50, 100, 20);
+		 labelType.setBounds(10, 10, 120, 20);
 		  
-		 valueField.setBounds(80, 140, 140, 20);
+		 valueField.setBounds(80, 50, 140, 20);
 		  
-		 printers.setBounds(10, 10, 400, 25);
-		 type.setBounds(80, 80, 100, 20);
+		 printers.setBounds(10,180, 400, 25);
+		 type.setBounds(80, 10, 100, 20);
 		  
 		 type.addItem("name");
 		 type.addItem("company");
