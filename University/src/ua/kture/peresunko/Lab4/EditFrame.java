@@ -74,7 +74,8 @@ public class EditFrame extends JFrame{
 				name.setText(null);
 				nameOfCompany.setText(null);
 				printSpeed.setText(null);
-				printQuality.setVisible(false);
+				printQuality.setText(null);
+				jFrameWindow.setVisible(false);
 			}
 		});
 			

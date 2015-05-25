@@ -38,6 +38,18 @@ public abstract class Printer implements Comparable<Printer>{
 	public String getPrintQuality(){
 		return printQuality;
 	}
+	public void setName(String name){
+		this.name = name;
+	}
+	public void setNameOfCompany(String nameOfCompany){
+		this.nameOfCompany = nameOfCompany;
+	}
+	public void setPrintSpeed(double speed){
+		this.printSpeed = speed;
+	}
+	public void setPrintQuality(String printQuality){
+		this.printQuality = printQuality;
+	}
 	public int compareTo(Printer p) {
 		return this.getPrintSpeed()>p.getPrintSpeed() ? 1 : this.getPrintSpeed()==p.getPrintSpeed() ? 0 : -1;
 	}

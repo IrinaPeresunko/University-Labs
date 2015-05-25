@@ -32,7 +32,8 @@ public class MainFrame extends JFrame{
 		Box box = Box.createVerticalBox();
 		JPanel buttonPanel = new JPanel();
 		JComboBox sortedType = new JComboBox();
-		JComboBox deleteType = new JComboBox();
+		static JComboBox deleteType = new JComboBox();
+		static JComboBox searchType = new JComboBox();
 		
 		
 		
@@ -62,6 +63,9 @@ public class MainFrame extends JFrame{
 			sortedType.addItem("by speed");
 			sortedType.addItem("by company");
 			
+			searchType.addItem("one field");
+			searchType.addItem("few field");
+			
 			deleteType.addItem("selected");
 			deleteType.addItem("by field");
 			
@@ -70,6 +74,8 @@ public class MainFrame extends JFrame{
 			buttonPanel.add(sortedType);
 			buttonPanel.add(new JLabel("Delete: "));
 			buttonPanel.add(deleteType);
+			buttonPanel.add(new JLabel("Search by: "));
+			buttonPanel.add(searchType);
 			
 			viewList.addMouseListener(new MouseAdapter(){
 				public void mouseClicked(MouseEvent event){
@@ -173,6 +179,9 @@ public class MainFrame extends JFrame{
 			Printer printer = ((MyLinkedList) printerList).edit(name,nameOfCompany,printSpeed,quality,viewList.getSelectedIndex());
 			printerData.insertElementAt(toStringPrinterList(printer), viewList.getSelectedIndex());
 			printerData.remove(viewList.getSelectedIndex()+1);
+		}
+		public static  JList getJList(){
+			   return viewList;
 		}
 }
 

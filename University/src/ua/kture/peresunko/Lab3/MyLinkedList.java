@@ -91,62 +91,70 @@ public class MyLinkedList implements MyList<Printer>,Iterable<Printer>{
 		}	
 	}
 	private boolean removeAtTheTop() {
-		if(size==0){
-			System.out.println("No elements");
-			return false;
-		}
-		if(size==1){
-			first.printerData=last.printerData=null;
-			size--;
-			return true;	
-		}
-		first.next.prev = null;
-		first = first.next;
-		size--;
-		return true;
-	}
-	private boolean removeAtTheEnd() {
-		if(size==0){
-			System.out.println("No elements");
-			return false;
-		}
-		if(size==1){
-			first.printerData=last.printerData=null;
-			size--;
-			return true;	
-		}
-		last.prev.next = null;
-		last = last.prev;
-		size--;
-		return true;	
-	}
-	public void remove(int index){
-		if(index<1 || index>size){
-			System.out.println("index<1 || index>size");
-		}
-		else if(index==1){
-			removeAtTheTop();
-		}
-		else if(index==size){
-			removeAtTheEnd();
-		}
-		else{
-			Node current = first;
-			int i=1;
-			while(current!=null && i<index){
-				if(current.getNext()==null){
-					System.out.println("current.getNext()==null");
-					break;
-				}
-				else{
-					current=current.getNext();					
-					i++;
-				}
-			}
-			current.prev.next = current.next;
-			current.next.prev = current.prev;
-			size--;
-		}
+	    if(size==0){
+	     System.out.println("No elements");
+	     return false;
+	    }
+	    if(size==1){
+	     first.printerData=last.printerData=null;
+	     first = last = null;
+	     size--;
+	     return true; 
+	    }
+	    first.printerData = null;
+	    first = first.next;
+	    //first.prev.next = null;
+	    first.prev = null;
+	    size--;
+	    return true;
+	   }
+	   private boolean removeAtTheEnd() {
+	    if(size==0){
+	     System.out.println("No elements");
+	     return false;
+	    }
+	    if(size==1){
+	     first.printerData=last.printerData=null;
+	     first = last = null;
+	     size--;
+	     return true; 
+	    }
+	    last.printerData = null;
+	    last = last.prev;
+	    last.next.prev = null;
+	    last.next = null;
+	    size--;
+	    return true; 
+	   }
+	   public void remove(int index){
+	    if(index<1 || index>size){
+	     System.out.println("index<1 || index>size");
+	    }
+	    else if(index==1){
+	     removeAtTheTop();
+	    }
+	    else if(index==size){
+	     removeAtTheEnd();
+	    }
+	    else{
+	     Node current = first;
+	     int i=1;
+	     while(current!=null && i<index){
+	      if(current.getNext()==null){
+	       System.out.println("current.getNext()==null");
+	       break;
+	      }
+	      else{
+	       current=current.getNext();     
+	       i++;
+	      }
+	     }
+	     current.printerData = null;
+	     current.prev.next = current.next;
+	     current.next.prev = current.prev;
+	     current.prev = current.next = null;
+	     size--;
+	    }
 	}
 	public boolean contains(Printer printer){
 		Node current = first;
@@ -201,44 +209,109 @@ public class MyLinkedList implements MyList<Printer>,Iterable<Printer>{
 	}
 	
 	private class MyLinkedListIterator implements Iterator<Printer> {
-		private int currentPosition;
-		private boolean wasRemoved = false;
-		
-		public MyLinkedListIterator(){
-			currentPosition=-1;
+	      private boolean wasRemoved = false;
+	      Node current = null;
+	      int counter = 0;
+	      public boolean hasNext() {
+	     //  if(current.next != null) return true;
+	    	  if(counter < size) return true;
+	       return false;
+	      }
+	      public Printer next() {
+	       if(hasNext() && current == null){
+	        current = first;
+	        wasRemoved = false;
+	        counter++;
+	        return current.printerData;
+	       } 
+	       if(hasNext()){
+	        current = current.next;
+	        wasRemoved = false;
+	        counter++;
+	        return current.printerData;
+	       }
+	       return null;
+	     }
+	      public void remove() throws IllegalStateException{ 
+	       if(wasRemoved){
+	        System.out.println("You can't remove element twice in a row");
+	           throw new IllegalStateException();
+	       }
+	       if(current == first) {MyLinkedList.this.removeAtTheTop();wasRemoved = true;counter--;return;}
+	       if(current == last) {MyLinkedList.this.removeAtTheEnd();wasRemoved = true;counter--;return;}
+	        current.printerData = null;
+	    current.prev.next = current.next;
+	    current.next.prev = current.prev;
+	    //current.prev = current.next = null;
+	    counter--;
+	    size--;
+	        wasRemoved = true;
+	       }
+	      }
+		public int compareByName(Printer printer,String name){
+			if(name!=null){
+				if(printer.getName().equals(name)){
+					return 0;
+				}
+				return 1;
+			}
+			return -1;
 		}
-		public boolean hasNext() {
-			if(size==0 || currentPosition>=size-1){
+		public int compareByNameOfCompany(Printer printer,String nameOfCompany){
+			if(nameOfCompany!=null){
+				if(printer.getNameOfCompany().equals(nameOfCompany)){
+					return 0;
+				}
+			return 1;
+			}
+			return -1;
+		}
+		public int compareByPrintSpeed(Printer printer,double speed){
+			if(speed != 0){
+				if(printer.getPrintSpeed() == speed){
+					return 0;
+				}	
+			return 1;
+			}
+			return -1;
+		}
+		public int compareByPrintQuality(Printer printer,String printQuality){
+			if(printQuality!=null){
+				if(printer.getPrintQuality().equals(printQuality)){
+					return 0;
+				}
+			return 1;
+			}
+			return -1;
+		}
+		public boolean search(Printer printer,Parameters param){
+			if(compareByName(printer,param.getName())!=1){
+				if(compareByNameOfCompany(printer,param.getNameOfCompany())!=1){
+					if(compareByPrintSpeed(printer,param.getPrintSpeed())!=1){
+						if(compareByPrintQuality(printer,param.getPrintQuality())!=1){
+							return true;
+						}
+					return false;
+					}
+					return false;
+				}
 				return false;
 			}
-			else{
-				return true;
-			}
+			return false;
 		}
-		public Printer next() {
-			if(!hasNext()) return null;
-			
-			Node current=first;
-			currentPosition++;
-			wasRemoved = false;
-			for(int i=0;i<currentPosition;i++){
-				current = current.next;
-			}
-			return current.printerData;
-		}
-		public void remove() throws IllegalStateException{	
-			if(wasRemoved!=true && currentPosition>0){
-				MyLinkedList.this.remove(currentPosition+1);
-				//currentPosition--;
-				wasRemoved = true;
-			}
-			else{
-				System.out.println("You can't remove element twice in a row");
-				throw new IllegalStateException();
-			}
-		}
+	public Printer getElementByIndex(int index){
+		  Node temp = first;
+		  for(int i = 0; i < index; i++) temp = temp.next;
+		  return temp.printerData;
 	}
-
+	public Printer edit(String name,String company,double speed,String quality,int index){
+		Printer printer = getElementByIndex(index);
+		printer.setName(name);
+		printer.setNameOfCompany(company);
+		printer.setPrintSpeed(speed);
+		printer.setPrintQuality(quality);
+		return printer;
+	}
 	public void sort(Comparator<Printer> comparator) {
 		Node temp1 = first;
 		Node temp2 = first.next;
