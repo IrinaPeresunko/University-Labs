@@ -53,4 +53,10 @@ public abstract class Printer implements Comparable<Printer>{
 	public int compareTo(Printer p) {
 		return this.getPrintSpeed()>p.getPrintSpeed() ? 1 : this.getPrintSpeed()==p.getPrintSpeed() ? 0 : -1;
 	}
+	public void editElement(String name, String nameOfCompany, double speed,String printQuality){
+		this.setName(name);
+		this.setNameOfCompany(nameOfCompany);
+		this.setPrintSpeed(speed);
+		this.setPrintQuality(printQuality);
+	}
 }

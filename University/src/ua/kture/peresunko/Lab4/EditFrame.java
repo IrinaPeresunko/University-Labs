@@ -64,6 +64,7 @@ public class EditFrame extends JFrame{
 		
 		ok.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent event){
+				//Printer temp = printerList.getElement(ls.getSelectedIndex());
 				MainFrame.edit(name.getText(),nameOfCompany.getText(), Double.parseDouble(printSpeed.getText()), printQuality.getText());
 				jFrameWindow.setVisible(false);
 			}

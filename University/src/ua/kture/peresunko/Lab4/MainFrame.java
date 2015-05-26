@@ -146,9 +146,6 @@ public class MainFrame extends JFrame{
 				});
 			buttonEdit.addMouseListener(new MouseAdapter(){
 				public void mouseClicked(MouseEvent event){
-//					list.getElement(ls.getSelectedIndex()).getName(), 
-//				       list.getElement(ls.getSelectedIndex()).getPrice(),
-//				       list.getElement(ls.getSelectedIndex()).getYear());
 					EditFrame editFrame = new EditFrame(
 							((MyLinkedList) printerList).getElementByIndex(viewList.getSelectedIndex()).getName(),
 							((MyLinkedList) printerList).getElementByIndex(viewList.getSelectedIndex()).getNameOfCompany(),
@@ -176,7 +173,8 @@ public class MainFrame extends JFrame{
 			   printerData = model;
 		}
 		public static void edit(String name, String nameOfCompany, double printSpeed,String quality){
-			Printer printer = ((MyLinkedList) printerList).edit(name,nameOfCompany,printSpeed,quality,viewList.getSelectedIndex());
+			Printer printer = ((MyLinkedList) printerList).getElementByIndex(viewList.getSelectedIndex());
+			printer.editElement(name, nameOfCompany, printSpeed,quality);
 			printerData.insertElementAt(toStringPrinterList(printer), viewList.getSelectedIndex());
 			printerData.remove(viewList.getSelectedIndex()+1);
 		}
